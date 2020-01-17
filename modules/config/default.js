@@ -37,7 +37,7 @@ export const settings = {
   hideConjForOne: true,
   canReorder: true,
   canRegroup: true,
-  showNot: true,
+  showNot: false,
   groupActionsPosition: 'topRight', // oneOf [topLeft, topCenter, topRight, bottomLeft, bottomCenter, bottomRight]
   setOpOnChangeField: ['keep', 'default'], // 'default' (default if present), 'keep' (keep prev from last field), 'first', 'none'
 

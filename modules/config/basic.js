@@ -8,6 +8,7 @@ import {settings as defaultSettings} from '../config/default';
 
 const {
     TextWidget,
+    TextareaWidget,
     NumberWidget,
     SliderWidget,
     RangeWidget,
@@ -116,6 +117,7 @@ const operators = {
       },
       mongoFormatOp: mongoFormatOp1.bind(null, '$eq', v => v, false),
       jsonLogic: '==',
+      elasticSearchLogic: 'term',
   },
   not_equal: {
       label: '!=',
@@ -130,6 +132,7 @@ const operators = {
       },
       mongoFormatOp: mongoFormatOp1.bind(null, '$ne', v => v, false),
       jsonLogic: '!=',
+      elasticSearchLogic: 'term',
   },
   less: {
       label: '<',
@@ -138,6 +141,7 @@ const operators = {
       reversedOp: 'greater_or_equal',
       mongoFormatOp: mongoFormatOp1.bind(null, '$lt', v => v, false),
       jsonLogic: '<',
+      elasticSearchLogic: 'range',
   },
   less_or_equal: {
       label: '<=',
@@ -146,6 +150,7 @@ const operators = {
       reversedOp: 'greater',
       mongoFormatOp: mongoFormatOp1.bind(null, '$lte', v => v, false),
       jsonLogic: '<=',
+      elasticSearchLogic: 'range',
   },
   greater: {
       label: '>',
@@ -154,6 +159,7 @@ const operators = {
       reversedOp: 'less_or_equal',
       mongoFormatOp: mongoFormatOp1.bind(null, '$gt', v => v, false),
       jsonLogic: '>',
+      elasticSearchLogic: 'range',
   },
   greater_or_equal: {
       label: '>=',
@@ -162,7 +168,17 @@ const operators = {
       reversedOp: 'less',
       mongoFormatOp: mongoFormatOp1.bind(null, '$gte', v => v, false),
       jsonLogic: '>=',
+      elasticSearchLogic: 'range',
   },
+  in: {
+    label: 'in',
+    labelForFormat: 'in',
+    sqlOp: 'in',
+    reversedOp: 'less',
+    mongoFormatOp: mongoFormatOp1.bind(null, '$gte', v => v, false),
+    jsonLogic: '>=',
+    elasticSearchLogic: 'terms',
+    },  
   like: {
       label: 'Like',
       labelForFormat: 'Like',
@@ -216,6 +232,7 @@ const operators = {
       ],
       reversedOp: 'not_between',
       jsonLogic: "<=",
+      elasticSearchLogic: 'range',
   },
   not_between: {
       label: 'Not between',
@@ -232,6 +249,7 @@ const operators = {
           'and'
       ],
       reversedOp: 'between',
+      elasticSearchLogic: 'range',
   },
   range_between: {
       label: 'Between',
@@ -287,6 +305,7 @@ const operators = {
       },
       mongoFormatOp: mongoFormatOp1.bind(null, '$exists', v => false, false),
       jsonLogic: "!",
+      elasticSearchLogic: 'exists',
   },
   is_not_empty: {
       label: 'Is not empty',
@@ -299,6 +318,7 @@ const operators = {
       },
       mongoFormatOp: mongoFormatOp1.bind(null, '$exists', v => true, false),
       jsonLogic: "!!",
+      elasticSearchLogic: 'missing',
   },
   select_equals: {
       label: '==',
@@ -457,6 +477,20 @@ const widgets = {
           return (op == 'like' || op == 'not_like') ? SqlString.escapeLike(val) : SqlString.escape(val);
       },
   },
+  textarea: {
+      type: "text",
+      jsType: "string",
+      valueSrc: 'value',
+      valueLabel: "String",
+      valuePlaceholder: "Enter string",
+      factory: (props) => <TextareaWidget {...props} />,
+      formatValue: (val, fieldDef, wgtDef, isForDisplay) => {
+          return isForDisplay ? '"' + val + '"' : JSON.stringify(val);
+      },
+      sqlFormatValue: (val, fieldDef, wgtDef, op, opDef) => {
+          return (op == 'like' || op == 'not_like') ? SqlString.escapeLike(val) : SqlString.escape(val);
+      },
+  },  
   number: {
       type: "number",
       jsType: "number",
@@ -692,7 +726,7 @@ const types = {
           text: {
               operators: [
                   'equal',
-                  'not_equal',
+                  'not_equal',                  
                   'is_empty',
                   'is_not_empty',
                   'like',
@@ -702,6 +736,13 @@ const types = {
               widgetProps: {},
               opProps: {},
           },
+          textarea: {
+            operators: [
+                'in'
+            ],
+            widgetProps: {},
+            opProps: {},
+          },          
           field: {
               operators: [
                   //unary ops (like `is_empty`) will be excluded anyway, see getWidgetsForFieldOp()

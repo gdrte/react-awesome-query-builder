@@ -63,6 +63,7 @@ export interface Utils {
   // export
   jsonLogicFormat(tree: ImmutableTree, config: Config): JsonLogicResult;
   queryBuilderFormat(tree: ImmutableTree, config: Config): Object;
+  elasticSearchFormat(tree: ImmutableTree, config: Config): Object;
   queryString(tree: ImmutableTree, config: Config, isForDisplay?: Boolean): String;
   sqlFormat(tree: ImmutableTree, config: Config): String;
   mongodbFormat(tree: ImmutableTree, config: Config): Object;
@@ -171,13 +172,14 @@ export interface FieldWidget {
 };
 
 export type TextWidget = BaseWidget & BasicFieldSettings;
+export type TextareaWidget = BaseWidget & BasicFieldSettings;
 export type DateTimeWidget = RangeableWidget & DateTimeFieldSettings;
 export type BooleanWidget = BaseWidget & BooleanFieldSettings;
 export type NumberWidget = RangeableWidget & NumberFieldSettings;
 export type SelectWidget = BaseWidget & SelectFieldSettings;
 export type TreeSelectWidget = BaseWidget & TreeSelectFieldSettings;
 
-export type Widget = FieldWidget |  TextWidget | DateTimeWidget | BooleanWidget | NumberWidget | SelectWidget | TreeSelectWidget  | RangeableWidget | BaseWidget;
+export type Widget = FieldWidget |  TextWidget | TextareaWidget | DateTimeWidget | BooleanWidget | NumberWidget | SelectWidget | TreeSelectWidget  | RangeableWidget | BaseWidget;
 export type Widgets = TypedMap<Widget>;
 
 
@@ -534,6 +536,7 @@ export interface BasicConfig extends Config {
     less_or_equal: BinaryOperator,
     greater: BinaryOperator,
     greater_or_equal: BinaryOperator,
+    in: BinaryOperator,
     like: BinaryOperator,
     not_like: BinaryOperator,
     between: Operator2,
@@ -552,6 +555,7 @@ export interface BasicConfig extends Config {
   },
   widgets: {
     text: TextWidget,
+    textarea: TextareaWidget,
     number: NumberWidget,
     slider: NumberWidget,
     rangeslider: NumberWidget,
@@ -597,6 +601,7 @@ interface ReadyWidgets {
   FuncWidget: ElementType<WidgetProps>,
 
   TextWidget: ElementType<TextWidgetProps>,
+  TextareaWidget: ElementType<TextareaWidgetProps>,
   NumberWidget: ElementType<NumberWidgetProps>,
   SliderWidget: ElementType<NumberWidgetProps>,
   RangeWidget: ElementType<RangeSliderWidgetProps>,

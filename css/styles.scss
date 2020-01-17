@@ -267,6 +267,10 @@ ul.ant-select-selection__rendered {
   margin-right: 8px;
 }
 
+.rule--body{
+  display: inline-flex;
+}
+
 .rule--field, .rule--operator, .rule--value, .rule--operator-options, .rule--widget, 
 .widget--widget, .widget--valuesrc, .widget--sep, .operator--options--sep,
 .rule--before-widget, .rule--after-widget {

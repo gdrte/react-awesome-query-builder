@@ -10,7 +10,7 @@ import loadedInitValue from './init_value';
 import loadedInitLogic from './init_logic';
 
 const stringify = JSON.stringify;
-const {queryBuilderFormat, jsonLogicFormat, queryString, mongodbFormat, sqlFormat, getTree, checkTree, loadTree, uuid, loadFromJsonLogic} = Utils;
+const {queryBuilderFormat, jsonLogicFormat, queryString, mongodbFormat, sqlFormat, getTree, checkTree, loadTree, uuid, loadFromJsonLogic, elasticSearchFormat} = Utils;
 const preStyle = { backgroundColor: 'darkgrey', margin: '10px', padding: '10px' };
 const preErrorStyle = { backgroundColor: 'lightpink', margin: '10px', padding: '10px' };
 
@@ -141,6 +141,13 @@ export default class DemoQueryBuilder extends Component<{}, DemoQueryBuilderStat
             </pre>
         </div>
         <hr/>
+        <div>
+          Elastic Search: 
+            <pre style={preStyle}>
+              {stringify(elasticSearchFormat(immutableTree, config), undefined, 2)}
+            </pre>
+        </div>
+        <hr/>	
         <div>
           <a href="http://jsonlogic.com/play.html" target="_blank">jsonLogicFormat</a>: 
             { errors.length > 0 && 

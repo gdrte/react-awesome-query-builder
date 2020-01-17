@@ -3,6 +3,7 @@ export { default as DateTimeWidget } from "./DateTime";
 export { default as TimeWidget } from "./Time";
 export { default as SelectWidget } from "./Select";
 export { default as TextWidget } from "./Text";
+export {default as TextareaWidget} from './Textarea';
 export { default as NumberWidget } from "./Number";
 export { default as SliderWidget } from "./Slider";
 export { default as RangeWidget } from "./Range";
